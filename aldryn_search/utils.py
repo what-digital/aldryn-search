@@ -127,7 +127,10 @@ def get_field_value(obj, name):
         # specially when going through multiple relationships.
         value = getattr(obj, name, None) or ''
     else:
-        value = getattr(obj, name)
+        if name == 'translations':
+            value = obj.get_translation(obj.language_code)
+        else:
+            value = getattr(obj, name)
 
     if len(fields) > 1:
         remaining = '__'.join(fields[1:])
