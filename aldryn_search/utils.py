@@ -128,7 +128,10 @@ def get_field_value(obj, name):
         value = getattr(obj, name, None) or ''
     else:
         if name == 'translations':
-            value = obj.get_translation(obj.language_code)
+            try:
+                value = obj._get_translated_model(obj.language_code, use_fallback=True)
+            except:
+                return ''
         else:
             value = getattr(obj, name)
 
